@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Path Tuition Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A4A;
+    --paper:#FBF7EE;
+    --mustard:#E8A33D;
+    --forest:#2F6650;
+    --coral:#C1462F;
+    --charcoal:#2B2B2B;
+    --paper-line: rgba(27,42,74,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    color:var(--ink);
+    margin:0;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:520px; margin:0 auto;}
+  @media (min-width:640px){ .wrap{max-width:640px;} }
+
+  /* ---------- Holiday banner ---------- */
+  .banner{
+    background:var(--coral);
+    color:var(--paper);
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14.5px;
+    font-weight:600;
+    text-align:left;
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .banner .icon{
+    flex:0 0 auto;
+    font-size:18px;
+    animation: sway 2.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .banner .icon{animation:none;}
+  }
+  @keyframes sway{
+    0%,100%{transform:rotate(-8deg);}
+    50%{transform:rotate(8deg);}
+  }
+  .banner strong{font-weight:700;}
+
+  /* ---------- Header / hero ---------- */
+  header.hero{
+    background:var(--ink);
+    color:var(--paper);
+    padding:36px 20px 44px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--mustard);
+    margin-bottom:10px;
+  }
+  header.hero h1{
+    font-size:34px;
+    line-height:1.12;
+    font-weight:700;
+    color:var(--paper);
+  }
+  header.hero p.tagline{
+    margin-top:12px;
+    font-size:16px;
+    color:rgba(251,247,238,0.82);
+    max-width:38ch;
+  }
+  .hero-actions{
+    margin-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 18px;
+    border-radius:8px;
+    font-weight:600;
+    font-size:14.5px;
+    text-decoration:none;
+    border:1.5px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{ background:var(--mustard); color:var(--ink); }
+  .btn-ghost{ background:transparent; color:var(--paper); border-color:rgba(251,247,238,0.5); }
+
+  /* ---------- Section shell ---------- */
+  section{ padding:40px 20px; }
+  .section-head{ margin-bottom:22px; }
+  .section-head .eyebrow{ color:var(--forest); }
+  .section-head h2{ font-size:24px; font-weight:600; }
+  .section-head p{ margin-top:6px; color:#5b5b5b; font-size:14.5px; }
+
+  /* ---------- Course tickets (signature element) ---------- */
+  .tickets{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .ticket{
+    position:relative;
+    background:#fff;
+    border:1.5px solid var(--ink);
+    border-radius:10px;
+    display:flex;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(10px);
+    animation:rise .5s ease forwards;
+  }
+  .ticket:nth-child(1){animation-delay:.02s;}
+  .ticket:nth-child(2){animation-delay:.08s;}
+  .ticket:nth-child(3){animation-delay:.14s;}
+  .ticket:nth-child(4){animation-delay:.20s;}
+  .ticket:nth-child(5){animation-delay:.26s;}
+  .ticket:nth-child(6){animation-delay:.32s;}
+  @keyframes rise{ to{ opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){
+    .ticket{animation:none; opacity:1; transform:none;}
+  }
+
+  .ticket-main{
+    flex:1;
+    padding:16px 14px;
+    min-width:0;
+  }
+  .ticket-level{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--forest);
+    font-weight:600;
+  }
+  .ticket-subject{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-weight:600;
+    color:var(--ink);
+    margin-top:2px;
+  }
+  .ticket-time{
+    margin-top:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--charcoal);
+  }
+  .ticket-stub{
+    flex:0 0 96px;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10px 6px;
+    position:relative;
+  }
+  .ticket-stub::before{
+    content:"";
+    position:absolute;
+    left:-8px; top:0; bottom:0;
+    width:16px;
+    background-image:radial-gradient(circle 8px, var(--paper) 8px, transparent 9px);
+    background-size:16px 22px;
+    background-repeat:repeat-y;
+    background-position:left center;
+  }
+  .ticket-stub .fee-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--mustard);
+  }
+  .ticket-stub .fee{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:20px;
+    font-weight:600;
+    margin-top:2px;
+  }
+  .ticket-stub .fee-per{
+    font-size:10px;
+    color:rgba(251,247,238,0.7);
+    margin-top:1px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-card{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:14px;
+    padding:26px 20px;
+  }
+  .contact-card h2{ color:var(--paper); font-size:22px; }
+  .contact-row{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    margin-top:18px;
+    text-decoration:none;
+  }
+  .contact-row .glyph{
+    flex:0 0 40px;
+    height:40px;
+    border-radius:9px;
+    background:rgba(251,247,238,0.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+  }
+  .contact-row .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--mustard);
+  }
+  .contact-row .value{
+    font-size:15.5px;
+    font-weight:500;
+    margin-top:2px;
+    color:var(--paper);
+  }
+  .contact-row.linked .value{ text-decoration:underline; text-underline-offset:3px; }
+
+  .contact-buttons{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .btn-block{ justify-content:center; width:100%; padding:14px; font-size:15px; }
+  .btn-whatsapp{ background:#25D366; color:#0b2b16; }
+  .btn-call{ background:var(--mustard); color:var(--ink); }
+
+  footer{
+    padding:26px 20px 40px;
+    text-align:center;
+    font-size:12.5px;
+    color:#8a8a8a;
+  }
+</style>
+</head>
+<body>
+
+  <div class="banner">
+    <span class="icon">🌙</span>
+    <span><strong>Eid holidays:</strong> centre closed June 6–9. Classes resume June 10.</span>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Bright Path Tuition Centre</div>
+      <h1>Small classes.<br>Steady progress.</h1>
+      <p class="tagline">Primary &amp; secondary tuition in Math, Science and English — taught by the same tutors, term after term.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Get directions &amp; contact</a>
+        <a class="btn btn-ghost" href="#courses">See courses</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="courses">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Courses</div>
+        <h2>Timings &amp; monthly fees</h2>
+        <p>Each class runs 90 minutes. Fees are billed monthly, no long-term contracts.</p>
+      </div>
+
+      <div class="tickets">
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Primary 3–6</div>
+            <div class="ticket-subject">Math</div>
+            <div class="ticket-time">Mon &amp; Wed · 4:00–5:30 PM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$180</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Primary 4–6</div>
+            <div class="ticket-subject">Science</div>
+            <div class="ticket-time">Tue &amp; Thu · 4:00–5:30 PM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$180</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Primary 3–6</div>
+            <div class="ticket-subject">English</div>
+            <div class="ticket-time">Sat · 9:00–11:00 AM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$150</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Secondary 1–4</div>
+            <div class="ticket-subject">Math</div>
+            <div class="ticket-time">Mon &amp; Thu · 6:00–7:30 PM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$220</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Secondary 1–4</div>
+            <div class="ticket-subject">Science</div>
+            <div class="ticket-time">Tue &amp; Fri · 6:00–7:30 PM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$220</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+
+        <div class="ticket">
+          <div class="ticket-main">
+            <div class="ticket-level">Primary 6</div>
+            <div class="ticket-subject">PSLE Intensive</div>
+            <div class="ticket-time">Sat · 2:00–4:00 PM</div>
+          </div>
+          <div class="ticket-stub">
+            <div class="fee-label">Fee</div>
+            <div class="fee">$250</div>
+            <div class="fee-per">/ month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <div class="eyebrow" style="color:var(--mustard);">Contact</div>
+        <h2>Come say hello</h2>
+
+        <a class="contact-row" href="tel:+6591234567">
+          <div class="glyph">📞</div>
+          <div>
+            <div class="label">Phone</div>
+            <div class="value">+65 9123 4567</div>
+          </div>
+        </a>
+
+        <a class="contact-row linked" href="https://wa.me/6591234567?text=Hi%2C%20I%27d%20like%20to%20ask%20about%20classes%20at%20Bright%20Path%20Tuition%20Centre" target="_blank" rel="noopener">
+          <div class="glyph">💬</div>
+          <div>
+            <div class="label">WhatsApp</div>
+            <div class="value">Message us</div>
+          </div>
+        </a>
+
+        <a class="contact-row linked" href="https://www.google.com/maps/search/?api=1&query=Bright+Path+Tuition+Centre" target="_blank" rel="noopener">
+          <div class="glyph">📍</div>
+          <div>
+            <div class="label">Location</div>
+            <div class="value">Blk 123 Tampines Street 45, #01-08, Singapore 520123</div>
+          </div>
+        </a>
+
+        <div class="contact-buttons">
+          <a class="btn btn-block btn-whatsapp" href="https://wa.me/6591234567?text=Hi%2C%20I%27d%20like%20to%20ask%20about%20classes%20at%20Bright%20Path%20Tuition%20Centre" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          <a class="btn btn-block btn-call" href="tel:+6591234567">Call the centre</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Bright Path Tuition Centre · Open Mon–Sat, closed Sundays &amp; public holidays
+  </footer>
+
+</body>
+</html>
