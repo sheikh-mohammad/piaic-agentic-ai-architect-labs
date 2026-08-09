@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (toggled via <html class="dark">) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — warm ink + amber accent on cream (NoteVault)      */
+/* ------------------------------------------------------------------ */
+:root {
+  --background: #fbf7ee;
+  --surface: #ffffff;
+  --surface-muted: #f6f1e6;
+  --foreground: #1c1917;
+  --primary: #78716c;
+  --accent: #d97706;
+  --accent-soft: #fef3e0;
+  --muted: #f1ebde;
+  --muted-fg: #79716b;
+  --border: #e7e0d2;
+  --destructive: #dc2626;
+  --ring: #d97706;
+}
+
+.dark {
+  --background: #17140f;
+  --surface: #1f1b16;
+  --surface-muted: #26211b;
+  --foreground: #f3efe6;
+  --primary: #a8a29e;
+  --accent: #f59e0b;
+  --accent-soft: #3a2c12;
+  --muted: #29241d;
+  --muted-fg: #a89f93;
+  --border: #35302a;
+  --destructive: #f87171;
+  --ring: #f59e0b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-muted: var(--muted);
+  --color-muted-fg: var(--muted-fg);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+
+  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 4px 12px rgb(28 25 23 / 0.05);
+  --shadow-lift: 0 2px 4px rgb(28 25 23 / 0.05), 0 12px 28px rgb(28 25 23 / 0.09);
+  --shadow-modal: 0 4px 12px rgb(28 25 23 / 0.1), 0 32px 64px rgb(28 25 23 / 0.16);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--foreground);
+}
+
+/* Visible, consistent focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Micro-interaction & scrollbar polish                               */
+/* ------------------------------------------------------------------ */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes note-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fade-in { animation: fade-in 200ms ease-out both; }
+.animate-slide-up { animation: slide-up 240ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-pop-in { animation: pop-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-note-in { animation: note-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Thin warm scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
