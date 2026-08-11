@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   Note,
   NoteCategory,
@@ -35,7 +35,7 @@ const VIEW_TITLES: Record<ViewFilter["kind"], string> = {
 
 export function NotesApp() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+  const hasHydrated = useRef(false);
   const [filter, setFilter] = useState<ViewFilter>({ kind: "all" });
   const [search, setSearch] = useState("");
   const [view, setView] = useState<ViewMode>("grid");
@@ -47,25 +47,31 @@ export function NotesApp() {
     open: false,
     note: null,
   });
+  // Bumped on every open so <NoteEditor key={…}> remounts with fresh form state.
+  const [editorSession, setEditorSession] = useState(0);
 
   /* ----- hydration (client-only) ----- */
   useEffect(() => {
+    // One-time hydration from localStorage. Must run after mount: the initial
+    // render stays empty/light on the server so the SSR payload is stable and
+    // hydration never mismatches. Reading in a lazy initializer would render
+    // data on the client that the server never sent.
     const stored = loadNotes();
-    if (stored.length > 0) {
-      setNotes(stored);
-    } else {
-      setNotes(buildSampleNotes(Date.now()));
-    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- see note above
+    setNotes(stored.length > 0 ? stored : buildSampleNotes(Date.now()));
     const mode = loadTheme();
     setTheme(mode);
     document.documentElement.classList.toggle("dark", mode === "dark");
-    setHydrated(true);
   }, []);
 
-  /* ----- persistence ----- */
+  /* ----- persistence (skip the initial hydration write) ----- */
   useEffect(() => {
-    if (hydrated) saveNotes(notes);
-  }, [notes, hydrated]);
+    if (!hasHydrated.current) {
+      hasHydrated.current = true;
+      return;
+    }
+    saveNotes(notes);
+  }, [notes]);
 
   /* ----- theme side-effect ----- */
   useEffect(() => {
@@ -127,11 +133,13 @@ export function NotesApp() {
   /* ----- actions ----- */
   const openNew = useCallback(() => {
     setEditor({ open: true, note: null });
+    setEditorSession((s) => s + 1);
     setMobileNavOpen(false);
   }, []);
 
   const openEdit = useCallback((note: Note) => {
     setEditor({ open: true, note });
+    setEditorSession((s) => s + 1);
   }, []);
 
   const handleSave = useCallback(
@@ -406,6 +414,7 @@ export function NotesApp() {
       </main>
 
       <NoteEditor
+        key={editorSession}
         open={editor.open}
         initial={editor.note}
         onClose={() => setEditor({ open: false, note: null })}

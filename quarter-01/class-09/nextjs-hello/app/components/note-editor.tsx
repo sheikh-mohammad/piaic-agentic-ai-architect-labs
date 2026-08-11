@@ -29,26 +29,24 @@ export function NoteEditor({
   onSave,
   onDelete,
 }: NoteEditorProps) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState<NoteCategory>("Personal");
-  const [color, setColor] = useState<NoteColor>("amber");
-  const [pinned, setPinned] = useState(false);
+  // Initialized from `initial` on mount. The parent renders this component
+  // with a changing `key` per open session, so it remounts fresh every time.
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [content, setContent] = useState(initial?.content ?? "");
+  const [category, setCategory] = useState<NoteCategory>(
+    initial?.category ?? "Personal",
+  );
+  const [color, setColor] = useState<NoteColor>(initial?.color ?? "amber");
+  const [pinned, setPinned] = useState(initial?.pinned ?? false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  // Reset the form whenever the editor opens for a note.
+  // Focus the title field when the dialog opens.
   useEffect(() => {
     if (!open) return;
-    setTitle(initial?.title ?? "");
-    setContent(initial?.content ?? "");
-    setCategory(initial?.category ?? "Personal");
-    setColor(initial?.color ?? "amber");
-    setPinned(initial?.pinned ?? false);
-    setConfirmDelete(false);
     const t = requestAnimationFrame(() => titleRef.current?.focus());
     return () => cancelAnimationFrame(t);
-  }, [open, initial]);
+  }, [open]);
 
   // Close on Escape.
   useEffect(() => {

@@ -37,13 +37,11 @@ function CardAction({
   label,
   onClick,
   className = "",
-  filled = false,
   children,
 }: {
   label: string;
   onClick: () => void;
   className?: string;
-  filled?: boolean;
   children: React.ReactNode;
 }) {
   return (
